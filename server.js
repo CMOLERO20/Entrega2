@@ -4,15 +4,24 @@ const Contenedor = require('./Contenedor');
 const app = express();
 const product = new Contenedor('./productos.txt');
 
-app.get('/productos',(req,res)=> {
-    let productos = product.getAll();
-    res.send(`productos ${productos}`)
-}) 
-app.get('/productoRandom',(req,res)=> {
-    let productos = product.getAll();
-    let productoRandom = Math.floor(Math.random() * productos.length)
-    console.log(productos)
-    res.send(`producto ${productos[productoRandom]}`)
+app.get('/productos', async(req,res) => { 
+    try{
+    res.send(await product.getAll())
+    } catch(error) {
+    res.send(error)
+    }
+    
+    })
+
+app.get('/productoRandom', async (req,res)=> {
+    try {
+    let productos = await product.getAll();
+    let productoRandom = Math.floor(Math.random() * productos.length);
+    res.send(productos[productoRandom]);
+    } catch (error) {
+        
+    }
+    
 }) 
 
 
